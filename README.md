@@ -70,3 +70,31 @@ gestionTournoi.exe      # Windows
 Le programme lance un menu interactif en console permettant de configurer le tournoi, gérer les équipes/arbitres/terrains, puis créer et suivre les matchs.
 
 ## Structure du projet
+      Chess-tournament/
+      ├── main.cpp # Point d'entrée, menus interactifs
+      ├── Tournoi.h / .cpp # Logique centrale du tournoi
+      ├── Equipe.h / .cpp # Modèle équipe
+      ├── Arbitre.h / .cpp # Modèle arbitre
+      ├── Terrain.h / .cpp # Modèle terrain
+      ├── Match.h / .cpp # Modèle match
+      └── CMakeLists.txt # Configuration de build
+
+## Bonnes pratiques mises en œuvre
+
+- **Encapsulation stricte** — attributs privés, accès exclusivement via getters/setters.
+- **Séparation interface/implémentation** — chaque classe dispose d'un header (`.h`) et d'un fichier source (`.cpp`) dédiés.
+- **Validation métier** — contrôles avant ajout (ID unique, effectif minimum, cohérence des prérequis avant démarrage du tournoi).
+- **Gestion propre de la mémoire dynamique** — libération des objets `Match*` alloués dynamiquement dans le destructeur de `Tournoi`.
+
+## Point d'attention
+
+Le nom du dépôt (`Chess-tournament`) et sa description GitHub actuelle font référence aux échecs, mais le code implémente en réalité un gestionnaire de tournoi sportif d'équipe (football) — le menu principal du programme l'indique explicitement (`GESTION DU TOURNOI DE FOOTBALL`), et la règle du minimum de 20 joueurs par équipe confirme qu'il ne s'agit pas d'un jeu d'échecs. À corriger côté nom du dépôt / description GitHub pour éviter toute confusion en entretien technique.
+
+## Auteur & Contact
+
+**Hamza Elrhadiouini**
+Étudiant Ingénieur en Génie Logiciel (MIAGE) — EMSI Rabat
+
+- GitHub : [@ELGHAD](https://github.com/ELGHAD)
+- Portfolio : [elghad.github.io/hamza-elrhadiouini-portfolio](https://elghad.github.io/hamza-elrhadiouini-portfolio)
+- Email : [hamelrhadiouini@gmail.com](mailto:hamelrhadiouini@gmail.com)
