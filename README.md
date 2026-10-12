@@ -1,100 +1,202 @@
-# Tournament Manager — Gestion de Tournoi Sportif (C++)
+# Football Tournament Manager — C++20
 
-> Application console en C++ orientée objet pour gérer un tournoi sportif de bout en bout : équipes, arbitres, terrains, matchs et classement.
+A console-based football tournament management system built with C++20 and CMake. The application models teams, referees, venues, matches, tournament phases, and team rankings using object-oriented programming.
 
 ![C++](https://img.shields.io/badge/C%2B%2B-20-00599C?style=flat&logo=cplusplus&logoColor=white)
 ![CMake](https://img.shields.io/badge/Build-CMake-064F8C?style=flat&logo=cmake&logoColor=white)
-![Status](https://img.shields.io/badge/Status-Portfolio%20Project-blue)
-![License](https://img.shields.io/badge/License-Not%20specified-lightgrey)
+![Architecture](https://img.shields.io/badge/Design-Object--Oriented-blue?style=flat)
+![Interface](https://img.shields.io/badge/Interface-Console-lightgrey?style=flat)
+![License](https://img.shields.io/badge/License-Not%20specified-lightgrey?style=flat)
 
-## Aperçu du projet
+## Overview
 
-Ce projet implémente un système de gestion de tournoi sportif en ligne de commande, développé en C++20 selon les principes de la programmation orientée objet (encapsulation, séparation interface/implémentation). Il permet de configurer un tournoi, d'y inscrire des équipes et des arbitres, de réserver des terrains, puis de générer et suivre les matchs (phase de groupes et phase éliminatoire) jusqu'au classement final.
+Football Tournament Manager is a command-line application designed to organize and track a football tournament. It provides a central `Tournoi` class that coordinates teams, referees, venues, matches, and rankings.
 
-Il s'adresse aux recruteurs et développeurs souhaitant évaluer une modélisation orientée objet propre en C++ (classes métier découplées, gestion de la mémoire avec pointeurs, algorithmes de tri et de recherche) plutôt qu'une application graphique ou web.
+The project focuses on core C++ engineering concepts, including encapsulation, separation of interface and implementation, dynamic memory management, data structures, and business-rule validation.
 
-## Fonctionnalités clés
+The application is intended as a console-based management tool rather than a graphical or web-based platform.
 
-- **Configuration du tournoi** — nom, date, nombre maximum d'équipes, validation des prérequis avant démarrage (équipes, arbitres, terrains).
-- **Gestion des équipes** — ajout, consultation, recherche multi-critères (id, nom, ville, score, classement), contrainte métier (minimum 20 joueurs par équipe).
-- **Gestion des arbitres** — inscription, recherche par code, historique des décisions arbitrales.
-- **Gestion des terrains** — enregistrement (nom, ville, propriétaire, capacité) et recherche multi-critères.
-- **Gestion des matchs** — création aléatoire ou planifiée, phases multiples (groupes, éliminatoires, quarts, demi-finale, finale), enregistrement des scores.
-- **Classement automatique** — attribution des points (victoire/nul) et tri dynamique des équipes après chaque résultat.
-- **Planification** — répartition automatique en groupes de 4 équipes avec bascule directe en phase éliminatoire si moins de 8 équipes inscrites.
+## Features
 
-## Architecture & Stack technique
+### Tournament Configuration
 
-| Élément | Détail |
+- Configure the tournament name, date, and maximum team capacity.
+- Validate required resources before starting the tournament.
+- Manage tournament preparation through an interactive console menu.
+
+### Team Management
+
+- Register and inspect teams.
+- Search teams using supported criteria such as identifier, name, city, score, or ranking.
+- Apply domain validation rules, including the configured minimum squad size.
+
+### Referee Management
+
+- Register referees and search by referee code.
+- Associate referees with matches.
+- Maintain a record of refereeing decisions where supported by the implementation.
+
+### Venue Management
+
+- Register venues with details such as name, city, owner, and capacity.
+- Search venues using available criteria.
+
+### Match Management
+
+- Create matches through the available scheduling options.
+- Represent tournament phases, including group stages and knockout rounds.
+- Record match scores and update tournament standings.
+
+### Rankings and Tournament Progression
+
+- Award points based on match outcomes, including wins and draws.
+- Recalculate team rankings after results are recorded.
+- Organize teams into groups and transition to knockout phases according to the implemented tournament rules.
+
+## Technology Stack
+
+| Technology | Purpose |
 |---|---|
-| **Langage** | C++20 |
-| **Build system** | CMake (3.29+) |
-| **Paradigme** | Programmation orientée objet (classes, encapsulation, séparation `.h` / `.cpp`) |
-| **Structures de données** | `std::vector`, pointeurs bruts pour les entités dynamiques (`Match*`) |
-| **Gestion mémoire** | Allocation dynamique des matchs avec libération explicite dans le destructeur de `Tournoi` |
+| C++20 | Application language |
+| CMake | Build configuration |
+| `std::vector` | Collection management |
+| Header files (`.h`) | Class interfaces |
+| Source files (`.cpp`) | Class implementations |
+| Dynamic memory management | Match object lifecycle in the tournament model |
 
-**Classes principales :**
+## Architecture
 
-| Classe | Responsabilité |
+The application follows an object-oriented design with separate classes for the main tournament entities.
+
+```text
+Console Interface
+       |
+       v
+    Tournoi
+       |
+       +------------------+
+       |        |         |
+       v        v         v
+     Equipe   Arbitre   Terrain
+       |
+       v
+     Match
+       |
+       v
+ Results and Rankings
+```
+
+### Core Classes
+
+| Class | Responsibility |
 |---|---|
-| `Tournoi` | Orchestration globale : équipes, arbitres, terrains, matchs, classement |
-| `Equipe` | Représentation d'une équipe (score, classement, effectif) |
-| `Arbitre` | Représentation d'un arbitre et de ses décisions |
-| `Terrain` | Représentation d'un terrain (ville, propriétaire, capacité) |
-| `Match` | Un match donné : équipes, arbitre, terrain, score, phase |
+| `Tournoi` | Coordinates tournament configuration, participants, matches, and rankings |
+| `Equipe` | Represents a team and its tournament statistics |
+| `Arbitre` | Represents a referee and associated decisions |
+| `Terrain` | Stores venue information |
+| `Match` | Represents a match, its participants, assigned resources, score, and phase |
 
-## Installation & Démarrage rapide
+The design separates class declarations from their implementations, making individual components easier to understand and maintain.
 
-### Prérequis
-- Un compilateur compatible C++20 (GCC, Clang ou MSVC)
-- CMake 3.29 ou supérieur
+## Project Structure
 
-### Compilation
+```text
+Football-Tournament-Manager/
+├── main.cpp
+├── Tournoi.h
+├── Tournoi.cpp
+├── Equipe.h
+├── Equipe.cpp
+├── Arbitre.h
+├── Arbitre.cpp
+├── Terrain.h
+├── Terrain.cpp
+├── Match.h
+├── Match.cpp
+└── CMakeLists.txt
+```
+
+## Getting Started
+
+### Prerequisites
+
+- A C++ compiler supporting C++20, such as GCC, Clang, or a compatible MSVC version.
+- CMake 3.29 or later, as specified by the project configuration.
+
+### Clone the Repository
+
+If the repository retains its current name:
 
 ```bash
 git clone https://github.com/ELGHAD/Chess-tournament.git
 cd Chess-tournament
+```
 
-mkdir build && cd build
+### Build the Application
+
+```bash
+mkdir build
+cd build
 cmake ..
 cmake --build .
 ```
 
-### Exécution
+### Run
+
+On Linux or macOS, if the generated executable is named `gestionTournoi`:
 
 ```bash
-./gestionTournoi        # Linux / macOS
-gestionTournoi.exe      # Windows
+./gestionTournoi
 ```
 
-Le programme lance un menu interactif en console permettant de configurer le tournoi, gérer les équipes/arbitres/terrains, puis créer et suivre les matchs.
+On Windows, run the generated `gestionTournoi.exe` from its build output directory. The exact executable location may depend on the selected generator and build configuration.
 
-## Structure du projet
-      Chess-tournament/
-      ├── main.cpp # Point d'entrée, menus interactifs
-      ├── Tournoi.h / .cpp # Logique centrale du tournoi
-      ├── Equipe.h / .cpp # Modèle équipe
-      ├── Arbitre.h / .cpp # Modèle arbitre
-      ├── Terrain.h / .cpp # Modèle terrain
-      ├── Match.h / .cpp # Modèle match
-      └── CMakeLists.txt # Configuration de build
+The program provides an interactive console menu for managing tournament information and following matches and results.
 
-## Bonnes pratiques mises en œuvre
+## Engineering Concepts
 
-- **Encapsulation stricte** — attributs privés, accès exclusivement via getters/setters.
-- **Séparation interface/implémentation** — chaque classe dispose d'un header (`.h`) et d'un fichier source (`.cpp`) dédiés.
-- **Validation métier** — contrôles avant ajout (ID unique, effectif minimum, cohérence des prérequis avant démarrage du tournoi).
-- **Gestion propre de la mémoire dynamique** — libération des objets `Match*` alloués dynamiquement dans le destructeur de `Tournoi`.
+### Encapsulation
 
-## Point d'attention
+Classes encapsulate their data and expose operations through public methods, helping separate internal state from external use.
 
-Le nom du dépôt (`Chess-tournament`) et sa description GitHub actuelle font référence aux échecs, mais le code implémente en réalité un gestionnaire de tournoi sportif d'équipe (football) — le menu principal du programme l'indique explicitement (`GESTION DU TOURNOI DE FOOTBALL`), et la règle du minimum de 20 joueurs par équipe confirme qu'il ne s'agit pas d'un jeu d'échecs. À corriger côté nom du dépôt / description GitHub pour éviter toute confusion en entretien technique.
+### Interface and Implementation Separation
 
-## Auteur & Contact
+Each principal class uses a header file for its declaration and a source file for its implementation. This organization improves readability and supports modular development.
+
+### Business-Rule Validation
+
+The application includes validation for selected tournament constraints, such as team identifiers, squad size, and prerequisites for starting the tournament.
+
+### Data Structures and Algorithms
+
+Standard C++ containers support the management of tournament entities, while search and sorting operations support team lookup and ranking updates.
+
+### Memory Management
+
+The tournament implementation uses dynamically allocated match objects and explicit cleanup. This provides an opportunity to study object lifecycles and resource ownership in C++.
+
+For further modernization, smart pointers such as `std::unique_ptr` would make ownership clearer and reduce the risk of memory-management errors.
+
+## Current Scope and Limitations
+
+This project is a console-based football tournament manager. It should not be confused with a chess tournament application.
+
+Its current scope does not establish the presence of a graphical interface, database persistence, a web API, or automated test coverage.
+
+The use of raw pointers also means that object ownership and cleanup deserve particular attention. Automated tests for tournament progression, score recording, and ranking calculations would improve confidence in the implementation.
+
+## Potential Improvements
+
+1. Replace owning raw pointers with `std::unique_ptr` where appropriate.
+2. Add unit tests for ranking calculations and tournament progression.
+3. Improve scheduling constraints to prevent conflicting venue or referee assignments.
+4. Separate tournament rules from console input and output.
+5. Add persistent storage for teams, matches, and results.
+6. Introduce continuous integration to build and test the application automatically.
+
+## Author
 
 **Hamza Elrhadiouini**
-Étudiant Ingénieur en Génie Logiciel (MIAGE) — EMSI Rabat
 
-- GitHub : [@ELGHAD](https://github.com/ELGHAD)
-- Portfolio : [elghad.github.io/hamza-elrhadiouini-portfolio](https://elghad.github.io/hamza-elrhadiouini-portfolio)
-- Email : [hamelrhadiouini@gmail.com](mailto:hamelrhadiouini@gmail.com)
+- GitHub: [@ELGHAD](https://github.com/ELGHAD)
+- Portfolio: [elghad.github.io/hamza-elrhadiouini-portfolio](https://elghad.github.io/hamza-elrhadiouini-portfolio)
